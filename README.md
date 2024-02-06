@@ -5,4 +5,3 @@ You have the next big thing on the interwebs.  But a thing isn't anything withou
 1. Write a `User` class that can handle your growing application's needs.
 2. Create a few users.
 
-
