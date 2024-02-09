@@ -54,11 +54,10 @@
 class User:
     every_post_ever = {}
 
-    def __init__(self, name, email, phoneNumber, gender):
+    def __init__(self, name, email, phoneNumber):
         self.name = name
         self.email = email
         self.phoneNumber = phoneNumber
-        self.gender = gender
         self.postBook = []
         self.counter = 1
         
@@ -88,18 +87,18 @@ class User:
     
 
     def __str__(self):
-        return f"this user's name is {self.name}, email is {self.email}, phone number is {self.phoneNumber}, and is a {self.gender}"
+        return f"this user's name is {self.name}, email is {self.email}, phone number is {self.phoneNumber}"
 
     def __repr__(self):
-        return f"this user's name is {self.name}, email is {self.email}, phone number is {self.phoneNumber}, and is a {self.gender}"
+        return f"this user's name is {self.name}, email is {self.email}, phone number is {self.phoneNumber}"
 
 
     def create_post(self, post):
         new_post = f'{self.counter}. {post}'
-        self.counter += 1
         self.postBook.append(new_post)
         User.every_post_ever[self.get_name] = self.postBook
         print('posted!')
+        self.counter += 1
         # print(f"here are all of {self.get_name}'s posts: {User.every_post_ever[self.get_name]}")
     
 
@@ -109,21 +108,43 @@ class User:
         
         
 
+#-----------------------------------
+
+class FreeUser (User):
+    '''can only make 2 posts'''
+    
+    def __init__(self, name, email, phoneNumber):
+        super().__init__(name, email, phoneNumber)
+
+    def create_post(self, post):
+         if self.counter == 3: #self counter starts at 1 when instance is instantiated
+             print('you\'ve already made 2 posts, please upgrade to premium')
+         else:
+            super().create_post(post)
+         
+         
 
 
 
-p1 = User('natalie', 'rivero@mymail.com', '555-555-5555', 'female')
-p2 = User('austin', 'austin@mymail.com', '333-333-3333', 'male')
+
+
+
+
+
+p1 = FreeUser('natalie', 'rivero@mymail.com', '555-555-5555')
+p2 = FreeUser('austin', 'austin@mymail.com', '333-333-3333')
 
 p1.create_post('hi this is my first post!!:)')
+print(p1.get_postBook)
+print('  ')
 
 p2.create_post('this MYY FIRST POST!')
+print(p2.get_postBook)
+print('    ')
 
-print('---------------')
 
 p1.create_post('second post!!')
 
 # User.printing_every_post()
 print(p1.get_postBook)
 
-p1.delete_post(2)
