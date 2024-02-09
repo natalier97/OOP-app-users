@@ -53,13 +53,17 @@
 
 class User:
     every_post_ever = {}
+    user_count = 0
+    all_users = []
 
     def __init__(self, name, email, phoneNumber):
         self.name = name
         self.email = email
         self.phoneNumber = phoneNumber
         self.postBook = []
-        self.counter = 1
+        self.post_counter = 1
+        User.user_count += 1
+        User.all_users.append(self)
         
 
     @property
@@ -76,7 +80,7 @@ class User:
         return self.phoneNumber
     @property
     def get_postBook(self):
-        return f'here are of your posts: {self.postBook}'
+        return f'here are of the posts: {self.postBook}'
     
     @classmethod
     def printing_every_post(cls):
@@ -94,11 +98,11 @@ class User:
 
 
     def create_post(self, post):
-        new_post = f'{self.counter}. {post}'
+        new_post = f'{self.post_counter}. {post}'
         self.postBook.append(new_post)
         User.every_post_ever[self.get_name] = self.postBook
         print('posted!')
-        self.counter += 1
+        self.post_counter += 1
         # print(f"here are all of {self.get_name}'s posts: {User.every_post_ever[self.get_name]}")
     
 
@@ -117,7 +121,7 @@ class FreeUser (User):
         super().__init__(name, email, phoneNumber)
 
     def create_post(self, post):
-         if self.counter == 3: #self counter starts at 1 when instance is instantiated
+         if self.post_counter == 3: #self post_counter starts at 1 when instance is instantiated
              print('you\'ve already made 2 posts, please upgrade to premium')
          else:
             super().create_post(post)
@@ -131,20 +135,20 @@ class FreeUser (User):
 
 
 
-p1 = FreeUser('natalie', 'rivero@mymail.com', '555-555-5555')
-p2 = FreeUser('austin', 'austin@mymail.com', '333-333-3333')
+# p1 = FreeUser('natalie', 'rivero@mymail.com', '555-555-5555')
+# p2 = FreeUser('austin', 'austin@mymail.com', '333-333-3333')
 
-p1.create_post('hi this is my first post!!:)')
-print(p1.get_postBook)
-print('  ')
+# p1.create_post('hi this is my first post!!:)')
+# print(p1.get_postBook)
+# print('  ')
 
-p2.create_post('this MYY FIRST POST!')
-print(p2.get_postBook)
-print('    ')
+# p2.create_post('this MYY FIRST POST!')
+# print(p2.get_postBook)
+# print('    ')
 
 
-p1.create_post('second post!!')
+# p1.create_post('second post!!')
 
-# User.printing_every_post()
-print(p1.get_postBook)
+# # User.printing_every_post()
+# print(p1.get_postBook)
 
