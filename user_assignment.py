@@ -121,10 +121,22 @@ class FreeUser (User):
         super().__init__(name, email, phoneNumber)
 
     def create_post(self, post):
-         if self.post_counter == 3: #self post_counter starts at 1 when instance is instantiated
+         if self.post_counter >= 3: #self post_counter starts at 1 when instance is instantiated
              print('you\'ve already made 2 posts, please upgrade to premium')
+             return
          else:
-            super().create_post(post)
+            new_post = f'{self.post_counter}. {post}'
+            self.postBook.append(new_post)
+            User.every_post_ever[self.get_name] = self.postBook
+            print('posted!')
+            self.post_counter += 1
+
+
+class PremiumUser (User):
+    '''can make unlimited posts'''
+    def __init__(self, name, email, phoneNumber):
+        super().__init__(name, email, phoneNumber)
+
          
          
 

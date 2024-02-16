@@ -1,4 +1,4 @@
-from user_assignment import User, FreeUser
+from user_assignment import User, FreeUser, PremiumUser
 
 
 #menu face
@@ -9,8 +9,7 @@ def menu_interface():
     print("3. View Everyone's posts")
     print("4. Add a post")
     print("5. Delete a post")
-    # print("6. Update mileage")
-    print("7. Quit")
+    print("6. Quit")
 
 
 #-----------functions for choices -------
@@ -31,19 +30,19 @@ def add_user():
 #choice 2 --view a user's post
 def view_user_post():
     which_user = input('which user\'s post? ')  
-    for person in User.every_post_ever:
-        if which_user == person:
-            print(User.every_post_ever[person])
+    if which_user in User.every_post_ever:
+        print(User.every_post_ever[which_user])
+    else:
+        print('this person doesn\'t have any posts yet :( ')
 
-        else:
-            print('this person doesn\'t have any posts yet :( ')
     return which_user
 
 
 
 #choice 3 --view everyone's post
 def view_everyone_post():
-    print(f"here is everyone's posts: {User.every_post_ever}")
+    # print(f"here is everyone's posts: {User.every_post_ever}")
+    User.printing_every_post()
 
 
 
@@ -52,32 +51,39 @@ def view_everyone_post():
 #choice 4 --add a post
 def add_a_post():
     which_user = input('who wants to add a post?  ')
-    post = input('write away! ... ')  
     person_found = False
-    for person in User.all_users:
-        if which_user == person.get_name:
+
+    for users in User.all_users:
+        if which_user == users.get_name:
             person_found = True
-            new_post = f'{person.post_counter}. {post}'
-            person.postBook.append(new_post)
-            User.every_post_ever[person.get_name] = person.postBook
-            print('posted!')
-            person.post_counter += 1
+            post = input('write away! ... ')
+            users.create_post(post)
        
     if person_found == False:
-        print('Person is not registered ')
+            print('Person is not registered ')
+
+     
        
 
 
 # choice 5 --delete a post
 def delete_a_post():
-    which_user = view_user_post() #shows user all their posts
-    delete_this_post = int(input('which post number do you want to delete?  '))
-    for person in User.all_users:
-        if which_user == person.get_name:
-            del person.postBook[delete_this_post - 1]
-            print(f'here are your updated posts: {person.postBook} ')
-
-
+    person_found = False
+    which_user = input('which user\'s post? ')  
+    if which_user in User.every_post_ever:
+        person_found == True
+        print(User.every_post_ever[which_user])
+        for users in User.all_users:
+            if which_user == users.get_name:
+                person_found = True
+                print(User.every_post_ever[which_user])
+                delete_this_post = int(input('which post number do you want to delete?  '))
+                del users.postBook[delete_this_post - 1]
+                print(f'here are your updated posts: {users.postBook} ')
+    if person_found == False:
+            print('this person doesn\'t have any posts yet :( ')
+ 
+  
 
 ##return to main menu function
 def return_to_menu_face():
@@ -99,19 +105,24 @@ def the_app():
         match choice:
             case 1: #--add a user
                 add_user()
-                user_input = return_to_menu_face()
+                # user_input = return_to_menu_face()
+
             case 2: #--view a user's post
                 view_user_post()
-                user_input = return_to_menu_face()
+                # user_input = return_to_menu_face()
+
             case 3: # --view everyone's post
                 view_everyone_post()
-                user_input = return_to_menu_face()
+                # user_input = return_to_menu_face()
+
             case 4: #add a post
                 add_a_post()
-                user_input = return_to_menu_face()
+                # user_input = return_to_menu_face()
+
             case 5: #delete a post
                 delete_a_post()
-                user_input = return_to_menu_face()
+                # user_input = return_to_menu_face()
+                
             case 6: ## exit app
                 break
 
@@ -119,7 +130,7 @@ def the_app():
 
 
 p1 = FreeUser('natalie', 'rivero@mymail.com', '555-555-5555')
-p2 = FreeUser('rey', 'austin@mymail.com', '333-333-3333')
+p2 = PremiumUser('rey', 'austin@mymail.com', '333-333-3333')
 # p1.create_post('hi this is my first post!!:)')
 
 the_app()
